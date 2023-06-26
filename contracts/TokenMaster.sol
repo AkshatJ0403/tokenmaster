@@ -16,7 +16,7 @@ contract TokenMaster is ERC721 {
         uint256 maxTickets;
         string date;
         string time;
-        string location;
+        string location; 
     }
 
     mapping(uint256 => Occasion) occasions;
@@ -24,7 +24,7 @@ contract TokenMaster is ERC721 {
     mapping(uint256 => mapping(uint256 => address)) public seatTaken;
     mapping(uint256 => uint256[]) seatsTaken;
 
-    modifier onlyOwner() {
+    modifier onlyOwner(){
         require(msg.sender == owner);
         _;
     }
@@ -32,7 +32,7 @@ contract TokenMaster is ERC721 {
     constructor(
         string memory _name,
         string memory _symbol
-    ) ERC721(_name, _symbol) {
+    ) ERC721(_name, _symbol){
         owner = msg.sender;
     }
 
@@ -42,14 +42,16 @@ contract TokenMaster is ERC721 {
         uint256 _maxTickets,
         string memory _date,
         string memory _time,
-        string memory _location
-    ) public onlyOwner {
-        totalOccasions++;
+        string memory _location 
+    ) public onlyOwner{
+        
+
+        totalOccasions++; 
         occasions[totalOccasions] = Occasion(
             totalOccasions,
             _name,
             _cost,
-            _maxTickets,
+            _maxTickets, 
             _maxTickets,
             _date,
             _time,
@@ -69,28 +71,26 @@ contract TokenMaster is ERC721 {
         require(seatTaken[_id][_seat] == address(0));
         require(_seat <= occasions[_id].maxTickets);
 
-        occasions[_id].tickets -= 1; // <-- Update ticket count
-
-        hasBought[_id][msg.sender] = true; // <-- Update buying status
-        seatTaken[_id][_seat] = msg.sender; // <-- Assign seat
-
-        seatsTaken[_id].push(_seat); // <-- Update seats currently taken
+        occasions[_id].tickets-=1; //update ticket count
+        hasBought[_id][msg.sender] = true;  //update buying status
+        seatTaken[_id][_seat] = msg.sender; //assign a seat
+        seatsTaken[_id].push(_seat);  //update seats currently taken
 
         totalSupply++;
-
         _safeMint(msg.sender, totalSupply);
+    } 
+
+    function getOccasion(uint256 _id) public view returns (Occasion memory){
+        return occasions[_id]; 
     }
 
-    function getOccasion(uint256 _id) public view returns (Occasion memory) {
-        return occasions[_id];
+    function getSeatsTaken(uint256 _id) public view returns (uint256[] memory){
+        return seatsTaken[_id]; 
     }
 
-    function getSeatsTaken(uint256 _id) public view returns (uint256[] memory) {
-        return seatsTaken[_id];
-    }
-
-    function withdraw() public onlyOwner {
+    function withdraw() public onlyOwner{
         (bool success, ) = owner.call{value: address(this).balance}("");
-        require(success);
+        require(success); 
     }
+    
 }

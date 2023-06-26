@@ -3,22 +3,22 @@ const { expect } = require("chai")
 const NAME = "TokenMaster"
 const SYMBOL = "TM"
 
-const OCCASION_NAME = "ETH Texas"
+const OCCASION_NAME = "ETH India"
 const OCCASION_COST = ethers.utils.parseUnits('1', 'ether')
 const OCCASION_MAX_TICKETS = 100
-const OCCASION_DATE = "Apr 27"
-const OCCASION_TIME = "10:00AM CST"
-const OCCASION_LOCATION = "Austin, Texas"
+const OCCASION_DATE = "Jun 26"
+const OCCASION_TIME = "10:00AM IST"
+const OCCASION_LOCATION = "KaviNagar, Ghaziabad"
+
 
 describe("TokenMaster", () => {
-  let tokenMaster
-  let deployer, buyer
+  let TokenMaster
+  let deployer, buyer 
 
-  beforeEach(async () => {
-    // Setup accounts
+  beforeEach(async()=> {
+    //Setup accounts 
     [deployer, buyer] = await ethers.getSigners()
 
-    // Deploy contract
     const TokenMaster = await ethers.getContractFactory("TokenMaster")
     tokenMaster = await TokenMaster.deploy(NAME, SYMBOL)
 
@@ -30,25 +30,28 @@ describe("TokenMaster", () => {
       OCCASION_TIME,
       OCCASION_LOCATION
     )
-
     await transaction.wait()
   })
 
   describe("Deployment", () => {
-    it("Sets the name", async () => {
+    it("Sets the name", async()=> {
       expect(await tokenMaster.name()).to.equal(NAME)
     })
 
-    it("Sets the symbol", async () => {
+    it("Sets the symbol", async()=> {      
       expect(await tokenMaster.symbol()).to.equal(SYMBOL)
     })
-
-    it("Sets the owner", async () => {
-      expect(await tokenMaster.owner()).to.equal(deployer.address)
+    it ("Sets the owner", async()=> {
+      expect(await tokenMaster.owner()).to.equal(deployer.address)  
     })
   })
 
   describe("Occasions", () => {
+    it("Updates occasions count", async()=> {
+      const totalOccasions = await tokenMaster.totalOccasions()
+      expect(totalOccasions).to.be.equal(1)
+    })
+
     it('Returns occasions attributes', async () => {
       const occasion = await tokenMaster.getOccasion(1)
       expect(occasion.id).to.be.equal(1)
@@ -60,10 +63,6 @@ describe("TokenMaster", () => {
       expect(occasion.location).to.be.equal(OCCASION_LOCATION)
     })
 
-    it('Updates occasions count', async () => {
-      const totalOccasions = await tokenMaster.totalOccasions()
-      expect(totalOccasions).to.be.equal(1)
-    })
   })
 
   describe("Minting", () => {
@@ -129,4 +128,5 @@ describe("TokenMaster", () => {
       expect(balance).to.equal(0)
     })
   })
+
 })

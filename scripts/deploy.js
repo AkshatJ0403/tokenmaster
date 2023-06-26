@@ -20,20 +20,20 @@ async function main() {
   // List 6 events
   const occasions = [
     {
-      name: "UFC Miami",
-      cost: tokens(3),
-      tickets: 0,
-      date: "May 31",
-      time: "6:00PM EST",
-      location: "Miami-Dade Arena - Miami, FL"
+      name: "Ek thi Haseena",
+      cost: tokens(4),
+      tickets: 10,
+      date: "June 26",
+      time: "11:10PM IST",
+      location: "Vura Luxury Mall - Jhansi Point, Kurukshetra"
     },
     {
-      name: "ETH Tokyo",
-      cost: tokens(1),
-      tickets: 125,
-      date: "Jun 2",
-      time: "1:00PM JST",
-      location: "Tokyo, Japan"
+      name: "Euphoria",
+      cost: tokens(5),
+      tickets: 1000,
+      date: "Jun 30",
+      time: "7:00PM IST",
+      location: "Siri Fort Auditorium, New Delhi"
     },
     {
       name: "ETH Privacy Hackathon",
